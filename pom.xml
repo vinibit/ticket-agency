@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.packtpub.as7devlopment.chapter3</groupId>
+	<groupId>com.packtpub.as7development.chapter3</groupId>
 	<artifactId>ticket-agency-ejb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>ejb</packaging>
@@ -40,13 +40,13 @@
 			<artifactId>jboss-annotations-api_1.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
@@ -56,8 +56,17 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.jboss.as.plugins</groupId>
+					<artifactId>jboss-as-maven-plugin</artifactId>
+					<version>7.7.Final</version>
+					<configuration>
+						<filename>${project.build.finalName}.jar</filename>
+					</configuration>
+				</plugin>	
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -76,8 +85,9 @@
 					<version>2.3</version>
 					<configuration>
 						<ejbVersion>3.1</ejbVersion>
+						<generateClient>true</generateClient>
 					</configuration>
-				</plugin>
+				</plugin>	
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
