@@ -50,7 +50,8 @@ public class TheatreBox {
 	}
 
 	@Lock(LockType.WRITE)
-	public void buyTicket(Seat seat) {
+	public void buyTicket(int seatId) {
+		Seat seat = getSeatList().get(seatId);
 		seat.setBooked(true);
 	}
 }

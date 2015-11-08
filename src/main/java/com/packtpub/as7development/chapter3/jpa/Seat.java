@@ -11,6 +11,11 @@ public class Seat {
 		this.name = name;
 		this.price = price;
 	}
+	
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	public int getPrice() {
 		return price;
@@ -24,5 +29,6 @@ public class Seat {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

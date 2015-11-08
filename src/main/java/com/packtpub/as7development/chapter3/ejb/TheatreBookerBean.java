@@ -1,5 +1,9 @@
 package com.packtpub.as7development.chapter3.ejb;
 
+import java.util.concurrent.Future;
+
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
@@ -14,7 +18,7 @@ public class TheatreBookerBean implements TheatreBooker {
 	private static final Logger logger = Logger.getLogger(TheatreBookerBean.class);
 	
 	int money;
-	@EJB TheatreBox box;
+	@EJB TheatreBox theatreBox;
 	
 	public void createCustomer() {
 		money = 100;
@@ -22,7 +26,7 @@ public class TheatreBookerBean implements TheatreBooker {
 	
 	@Override
 	public String bookSeat(int seatId) throws SeatBookedException, NotEnoughMoneyException {
-		Seat seat = box.getSeatList().get(seatId);
+		Seat seat = theatreBox.getSeatList().get(seatId);
 		
 		if (seat.isBooked()) {
 			throw new SeatBookedException("Seat Already booked!");
@@ -31,11 +35,36 @@ public class TheatreBookerBean implements TheatreBooker {
 			throw new NotEnoughMoneyException("You don't have enough money to buy this ticket!");
 		}
 		
-		box.buyTicket(seat);
+		theatreBox.buyTicket(seatId);
 		money = money - seat.getPrice();
 		
 		logger.info("Seat " + seatId + " booked.");
 		return "Seat " + seatId + " booked.";
+	}
+	
+	@Asynchronous
+	public Future<String> bookSeatAsync(int seatId) throws SeatBookedException, NotEnoughMoneyException {
+		Seat seat = theatreBox.getSeatList().get(seatId);
+		
+		if (seat.isBooked()) {
+			throw new SeatBookedException("Seat Already booked!");
+		}
+		if (seat.getPrice() > money) {
+			throw new NotEnoughMoneyException("You don't have enough money to buy this ticket!");
+		}
+		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("Booking issued");
+		theatreBox.buyTicket(seatId);
+		
+		money = money - seat.getPrice();
+		
+		return new AsyncResult<String>("Booked seat: " + seat + " - Money left: " + money); 
 	}
 
 }
