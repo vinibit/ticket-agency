@@ -10,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 
-import com.packtpub.as7development.chapter3.ejb.SeatBookedException;
 import com.packtpub.as7development.chapter3.ejb.TheatreBox;
 import com.packtpub.as7development.chapter3.jpa.Seat;
 
@@ -35,7 +34,7 @@ public class AutomaticSellerBean {
 		}
 		
 		theatreBox.buyTicket(seatId);
-		logger.info("Somebody just booked seat number " + seatId + 1);
+		logger.info("Somebody just booked seat number " + (seatId + 1));
 	}
 	
 	private int findSeat() {

@@ -1,20 +1,24 @@
 package com.packtpub.as7development.chapter3.jpa;
 
 public class Seat {
-	
+
 	private int id;
 	private String name;
 	private int price;
-	
+	private boolean booked;
+
 	public Seat(int id, String name, int price) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 	}
-	
+
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getPrice() {
@@ -22,13 +26,16 @@ public class Seat {
 	}
 
 	public void setBooked(boolean b) {
-		// TODO Auto-generated method stub
+		this.booked = b;
 	}
 
 	public boolean isBooked() {
-		// TODO Auto-generated method stub
-		return false;
+		return booked;
 	}
 
+	@Override
+	public String toString() {
+		return "Seat [id=" + id + ", name=" + this.name + ", price=" + this.price + ", booked=" + this.booked + "]";
 
+	}
 }

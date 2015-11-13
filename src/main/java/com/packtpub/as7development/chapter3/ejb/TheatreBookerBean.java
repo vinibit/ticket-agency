@@ -2,10 +2,10 @@ package com.packtpub.as7development.chapter3.ejb;
 
 import java.util.concurrent.Future;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
-import javax.ejb.Remote;
 import javax.ejb.Stateful;
 
 import org.jboss.logging.Logger;
@@ -13,13 +13,13 @@ import org.jboss.logging.Logger;
 import com.packtpub.as7development.chapter3.jpa.Seat;
 
 @Stateful
-@Remote(TheatreBookerBean.class)
 public class TheatreBookerBean implements TheatreBooker {
 	private static final Logger logger = Logger.getLogger(TheatreBookerBean.class);
 	
 	int money;
 	@EJB TheatreBox theatreBox;
 	
+	@PostConstruct
 	public void createCustomer() {
 		money = 100;
 	}
@@ -38,10 +38,11 @@ public class TheatreBookerBean implements TheatreBooker {
 		theatreBox.buyTicket(seatId);
 		money = money - seat.getPrice();
 		
-		logger.info("Seat " + seatId + " booked.");
-		return "Seat " + seatId + " booked.";
+		logger.info("Seat " + (seatId + 1) + " booked.");
+		return "Seat " + (seatId + 1) + " booked.";
 	}
 	
+	@Override
 	@Asynchronous
 	public Future<String> bookSeatAsync(int seatId) throws SeatBookedException, NotEnoughMoneyException {
 		Seat seat = theatreBox.getSeatList().get(seatId);
@@ -66,5 +67,4 @@ public class TheatreBookerBean implements TheatreBooker {
 		
 		return new AsyncResult<String>("Booked seat: " + seat + " - Money left: " + money); 
 	}
-
 }

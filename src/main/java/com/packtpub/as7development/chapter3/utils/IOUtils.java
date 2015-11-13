@@ -10,30 +10,33 @@ public class IOUtils {
 	static BufferedReader bufRead;
 
 	static {
-	 istream = new InputStreamReader(System.in) ;
+		istream = new InputStreamReader(System.in);
 
-	 bufRead = new BufferedReader(istream) ;
+		bufRead = new BufferedReader(istream);
 	}
+
 	public static String readLine(String s) {
 		System.out.print(s);
 		String returnval = null;
 		try {
-			returnval =  bufRead.readLine();
+			returnval = bufRead.readLine();
+			System.out.println();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return returnval;
 	}
+
 	public static int readInt(String s) {
 		System.out.print(s);
-		int returnval=0;
-		 
+		int returnval = 0;
+
 		try {
 			String txt = bufRead.readLine();
 			returnval = Integer.parseInt(txt);
-		} 
-		catch (IOException e) {
+			System.out.println();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
