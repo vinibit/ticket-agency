@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<h1>TicketBooker Machine</h1>
+			<h:form id="reg">
+				<a4j:poll id="poll" interval="2000" enabled="#{pollerBean.pollingActive}" render="grid" />
+				<rich:panel id="grid" header="TicketBooker Machine" style="width:350px">
+					<h2>Book your ticket</h2>
+					<h3>Money: $ #{theatreBookerBean.money}</h3>
+					<h:messages errorClass="error" infoClass="info" globalOnly="true" />
+
+					<rich:dataTable var="_seat" value="#{seats}"
+						rendered="#{not empty seats}" styleClass="simpletablestyle">
+						<h:column>
+							<f:facet name="header">Id</f:facet>
+						#{_seat.id}
+					</h:column>
+						<h:column>
+							<f:facet name="header">Name</f:facet>
+						#{_seat.name}
+					</h:column>
+						<h:column>
+							<f:facet name="header">Price</f:facet>
+						#{_seat.price}$
+					</h:column>
+						<h:column>
+							<f:facet name="header">Booked</f:facet>
+						#{_seat.booked}
+					</h:column>
+						<h:column>
+							<f:facet name="header">Action</f:facet>
+							<h:commandButton id="book"
+								action="#{theatreBookerBean.bookSeat(_seat.id)}"
+								disabled="#{_seat.booked}"
+								value="#{_seat.booked ? 'Reserved' : 'Book'}" />
+						</h:column>
+					</rich:dataTable>
+				</rich:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>
