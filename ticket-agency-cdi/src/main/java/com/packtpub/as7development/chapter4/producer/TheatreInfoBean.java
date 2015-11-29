@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.packtpub.as7development.chapter4.ejb.TheatreBox;
+import com.packtpub.as7development.chapter4.model.Seat;
 
 @Model
 public class TheatreInfoBean {
@@ -30,7 +31,7 @@ public class TheatreInfoBean {
 		seats = box.getSeatList();
 	}
 
-	public onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Seat member) {
+	public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Seat member) {
 		retrieveAllSeatsOrderedByName();
 	}
 }

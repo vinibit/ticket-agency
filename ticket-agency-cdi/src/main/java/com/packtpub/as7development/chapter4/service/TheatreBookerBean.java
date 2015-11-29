@@ -12,6 +12,7 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 
 import com.packtpub.as7development.chapter4.ejb.TheatreBox;
+import com.packtpub.as7development.chapter4.model.Seat;
 
 @Named
 @SessionScoped
@@ -20,7 +21,7 @@ public class TheatreBookerBean implements Serializable {
 
 	private static final Logger logger = Logger.getLogger(TheatreBookerBean.class);
 	
-	int money;
+	private int money;
 	@Inject TheatreBox theatreBox;
 	
 	@PostConstruct
@@ -28,11 +29,10 @@ public class TheatreBookerBean implements Serializable {
 		money = 100;
 	}
 	
-	@Override
 	public void bookSeat(int seatId) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		
-		logger.info("Booking seat "+seatId);
+		logger.info("Booking seat " + seatId);
 		Seat seat = theatreBox.getSeatList().get(seatId);
 		
 		if (seat.isBooked()) {
@@ -54,6 +54,14 @@ public class TheatreBookerBean implements Serializable {
 		FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Booked.", "Booking succesful!");
 		fc.addMessage(null, m);
 		return;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 }
